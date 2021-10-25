@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./feature-flag.css" />
+  </head>
+  <body>
+    <h1>Feature Toggle Page</h1>
+
+    <div class="main">
+      <div class="feature-flex">
+        <p>1. Show User Repository Feature</p>
+        <p>
+          <label class="switch">
+            <input type="checkbox" id="showRepoToggle" name="showRepoToggle" />
+            <span class="slider round"></span>
+          </label>
+        </p>
+        <p>
+          <button type="submit" id="showChanges1">Show Changes</button>
+        </p>
+      </div>
+      <div class="feature-flex">
+        <p>2. Auto Text Writer Feature</p>
+        <p>
+          <label class="switch">
+            <input type="checkbox" id="autoTextToggle" name="autoTextToggle" />
+            <span class="slider round"></span>
+          </label>
+        </p>
+        <p>
+          <button type="submit" id="showChanges2">Show Changes</button>
+        </p>
+      </div>
+    </div>
+
+    <script src="./feature-flag.js"></script>
+  </body>
+</html>

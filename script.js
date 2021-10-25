@@ -1,32 +1,41 @@
-const APIURL = 'https://api.github.com/users/'
+const APIURL = 'https://api.github.com/users/';
 
-const main = document.getElementById('main')
-const form = document.getElementById('form')
-const search = document.getElementById('search')
+const main = document.getElementById('main');
+const form = document.getElementById('form');
+const search = document.getElementById('search');
 
+// Get User Function
 async function getUser(username) {
     try {
-        const { data } = await axios(APIURL + username)
+        const { data } = await axios(APIURL + username);
 
-        createUserCard(data)
-        getRepos(username)
-    } catch(err) {
-        if(err.response.status == 404) {
-            createErrorCard('No profile with this username')
+        createUserCard(data);
+
+        let showRepoResponse = JSON.parse(localStorage.getItem("Show-Repository-Feature"));
+
+        // Show User Repository once it is switched on
+        if (showRepoResponse === true) {
+            getRepos(username);
+        }
+    } catch (err) {
+        if (err.response.status == 404) {
+            createErrorCard('No profile with this username');
         }
     }
 }
 
+// Get Repository Function
 async function getRepos(username) {
     try {
         const { data } = await axios(APIURL + username + '/repos?sort=created')
 
         addReposToCard(data)
-    } catch(err) {
+    } catch (err) {
         createErrorCard('Problem fetching repos')
     }
 }
 
+// Structure of Show User
 function createUserCard(user) {
     const cardHTML = `
     <div class="card">
@@ -47,9 +56,9 @@ function createUserCard(user) {
   </div>
     `
     main.innerHTML = cardHTML
-    
 }
 
+// Error Message Card
 function createErrorCard(msg) {
     const cardHTML = `
         <div class="card">
@@ -60,8 +69,9 @@ function createErrorCard(msg) {
     main.innerHTML = cardHTML
 }
 
+// Adding Repository to card
 function addReposToCard(repos) {
-    const reposEl = document.getElementById('repos')
+    const reposEl = document.getElementById('repos');
 
     repos
         .slice(0, 5)
@@ -81,10 +91,36 @@ form.addEventListener('submit', (e) => {
 
     const user = search.value
 
-    if(user) {
+    if (user) {
         getUser(user)
 
         search.value = ''
     }
 })
 
+
+// Auto Text Writer Feature
+const text = "You can search for your github profile...";
+
+let index = 0;
+
+function writeText() {
+    document.getElementById('mainHeader').innerText = text.slice(0, index);
+
+    index++;
+
+    if (index > text.length) {
+        index = 0;
+    }
+}
+
+window.onload = function () {
+    let autoTextResponse = JSON.parse(localStorage.getItem("Auto-Text-Feature"));
+
+    // Display Auto Text Writer if it is switched on
+    if (autoTextResponse === true) {
+        setInterval(() => {
+            writeText();
+        }, 200);
+    }
+};
